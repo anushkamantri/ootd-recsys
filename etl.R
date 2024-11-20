@@ -17,7 +17,10 @@ clean_data <- function(products) {
 
 save_product_images <- function(products) {
   products %>%
-    mutate(image_path = paste0("images/", category, row_number(), ".jpg")) %>%
+    mutate(extracted_content = gsub(".*/products/([a-zA-Z0-9\\-]+).*", "\\1", image_url),
+            extracted_content = gsub("-", "_", extracted_content),  # Replace dashes with underscores
+            # Construct the image path
+            image_path = paste0("images/", category, "_", extracted_content, ".jpg")) %>%
     rowwise() %>%
     mutate(download = {
       tryCatch({

@@ -2,6 +2,7 @@ library(plumber)
 library(DBI)
 library(RSQLite)
 library(jsonlite)
+library(magick)
 
 #* @apiTitle Outfit Recommendation API
 
@@ -85,20 +86,68 @@ get_ootd <- function() {
                                    LIMIT 1")
   }
   
-  print(outfit)
-  # Proceed to create the plot with selected items
-  plot.new()
-  # Example plot code:
-  plot.window(xlim=c(0,1), ylim=c(0,1))
-  text(0.5, 0.9, paste("Date:", Sys.Date()), cex=1.5)
-  text(0.5, 0.8, paste("Weather:", weather_desc), cex=1.2)
-  # Add images (this is a placeholder, you need to use functions like rasterImage)
-  # Return the plot
+  return(outfit)
 }
-get_ootd()
+
+
+make_collage <- function(outfit) {
+  canvas <- image_blank(width = 400, height = 400, color = "white")
+  canvas <- canvas %>%
+    image_annotate(text = paste("Date:", Sys.Date()), 
+                   size = 30, 
+                   gravity = "northwest", 
+                   location = "+10+50", 
+                   color = "black") %>%
+    image_annotate(text = paste("Weather:", weather_desc), 
+                   size = 20, 
+                   gravity = "northwest", 
+                   location = "+10+120", 
+                   color = "black")
+  
+  # Initialize an empty list to store the images
+  images <- list()
+  
+  # Loop through each item in the outfit
+  for (item in outfit) {
+    if (!is.null(item$image_url)) {
+      # Extract content from the image URL
+      extracted_content <- gsub(".*/products/([a-zA-Z0-9\\-]+).*", "\\1", item$image_url)
+      extracted_content <- gsub("-", "_", extracted_content)  # Replace dashes with underscores
+      
+      # Construct the image path
+      image_path <- paste0("images/", item$category, "_", extracted_content, ".jpg")
+      
+      # Read the image if it exists
+      if (file.exists(image_path)) {
+        img <- image_read(image_path)
+        # Append the image to the list
+        images <- append(images, list(img))
+      } else {
+        message("Image file does not exist: ", image_path)
+      }
+    }
+  }
+  
+  images <- image_join(images)
+  # img <- image_scale(img, "300x300")
+
+  # collage <- image_append(img)
+  canvas <- image_append(c(canvas, images))
+  
+  # Save the collage
+  if (!dir.exists("output")) {
+    dir.create("output")
+  }
+  image_write(canvas, "output/outfit_collage.png")
+  print(canvas)
+}
+
+
+outfit <- get_ootd()
+make_collage(outfit)
 
 #* Get Raw Product Data
-#* @get /rawdata
+# * @get /rawdata
 get_raw_product_data <- function() {
   conn <- dbConnect(SQLite(), dbname = "closet.db")
   data <- dbGetQuery(conn, "SELECT * FROM closet")
