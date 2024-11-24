@@ -3,7 +3,7 @@ library(dplyr)
 library(purrr)
 library(httr)
 
-# Step 1: Function to fetch the webpage
+# Function to fetch the webpage
 fetch_webpage <- function(url) {
   tryCatch({
     response <- GET(url, user_agent("Mozilla/5.0"))
@@ -16,7 +16,7 @@ fetch_webpage <- function(url) {
   })
 }
 
-# Step 2: Function to scrape product details
+# Function to scrape product details
 scrape_product_details <- function(webpage, category) {
   if (is.null(webpage)) {
     return(data.frame())
@@ -45,7 +45,7 @@ scrape_product_details <- function(webpage, category) {
   )
 }
 
-# Step 3: Main loop to process each category-link pair
+# Main loop to process each category-link pair
 scrape_and_save_products <- function(category_links) {
   products <- data.frame(
     category = character(),
@@ -68,7 +68,7 @@ scrape_and_save_products <- function(category_links) {
     products <- bind_rows(products, category_products)
   }
   
-  write.csv(products, "products_raw.csv", row.names = FALSE)
+  write.csv(products, "data/products_raw.csv", row.names = FALSE)
 }
 
 # Dictionary of category-link pairs

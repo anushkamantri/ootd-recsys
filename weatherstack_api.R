@@ -24,4 +24,8 @@ current_temperature <- weather_data$current$temperature
 weather_descriptions <- weather_data$current$weather_descriptions
 
 # Save weather data for use in recommendation logic
+if (!dir.exists("data")) {
+  dir.create("data")
+}
+
 saveRDS(weather_data, "data/weather_data.rds")

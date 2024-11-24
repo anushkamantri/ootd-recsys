@@ -64,8 +64,12 @@ load_into_db <- function(products) {
 }
 
 # Read raw data 
-products <- read.csv("products_raw.csv", 
+products <- read.csv("data/products_raw.csv", 
                      stringsAsFactors = FALSE)
+
+if (!dir.exists("images")) {
+  dir.create("images")
+}
 
 # Clean raw product data
 products_clean <- clean_data(products)
