@@ -1,5 +1,6 @@
 library(RSQLite)
 library(dplyr)
+library(httr)
 
 # Data cleaning
 clean_data <- function(products) {
@@ -46,6 +47,10 @@ load_into_db <- function(products) {
   
   # Create table schema using SQL commands
   dbExecute(conn, "
+  DROP TABLE IF EXISTS closet;
+  ")
+  
+  dbExecute(conn, "
   CREATE TABLE IF NOT EXISTS closet (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
    name TEXT,
@@ -78,4 +83,4 @@ products_clean <- clean_data(products)
 save_product_images(products_clean)
 
 # Load clean data into database
-load_into_db(products)
+load_into_db(products_clean)

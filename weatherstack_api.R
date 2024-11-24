@@ -3,8 +3,8 @@ library(jsonlite)
 library(dplyr)
 
 # Retrieve API key from environment variable
-# api_key <- Sys.getenv("YOUR_ACCESS_KEY")
-api_key <- '87fd023f6342d04cbd687f9a0dc22c4d'
+api_key <- Sys.getenv("YOUR_ACCESS_KEY")
+# api_key <- '87fd023f6342d04cbd687f9a0dc22c4d'
 
 # Construct API request
 response <- GET(

@@ -97,9 +97,10 @@ get_ootd <- function() {
                                    ORDER BY RANDOM()
                                    LIMIT 1")
   }
-  
+  dbDisconnect(conn)
   canvas <- make_collage(outfit)
   
+  # To display png image on swagger
   tmpfile <- tempfile(fileext = ".png")
   image_write(canvas, path = tmpfile, format = "png")
   image_binary <- readBin(tmpfile, "raw", file.info(tmpfile)$size)
