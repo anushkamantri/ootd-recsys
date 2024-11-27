@@ -23,38 +23,38 @@ get_ootd <- function() {
     # Select light clothing
     outfit$top <- dbGetQuery(conn, 
                              "SELECT * FROM closet 
-                             WHERE category = 'tshirts'
+                             WHERE category = 'Tshirt'
                              ORDER BY RANDOM()
                              LIMIT 1")
     
     outfit$bottom <- dbGetQuery(conn, 
                                 "SELECT * FROM closet 
-                                WHERE category = 'shorts' 
+                                WHERE category = 'Shorts' 
                                 ORDER BY RANDOM()
                                 LIMIT 1")
     
     outfit$shoes <- dbGetQuery(conn, 
                                "SELECT * FROM closet 
-                               WHERE category = 'sandals' 
+                               WHERE category = 'Sandals' OR category = 'Slides'
                                ORDER BY RANDOM()
                                LIMIT 1")
   } else if (temperature >= 15 && temperature <= 25) {
     # Select comfortable clothing
     outfit$top <- dbGetQuery(conn, 
                              "SELECT * FROM closet 
-                             WHERE category = 'longsleeves' 
+                             WHERE category = 'Longsleeve' OR category = 'Quarterzip' 
                              ORDER BY RANDOM()
                              LIMIT 1")
     
     outfit$bottom <- dbGetQuery(conn, 
                                 "SELECT * FROM closet 
-                                WHERE category = 'jeans' 
+                                WHERE category = 'Jeans' 
                                 ORDER BY RANDOM()
                                 LIMIT 1")
     
     outfit$shoes <- dbGetQuery(conn, 
                                "SELECT * FROM closet 
-                               WHERE category = 'sneakers' 
+                               WHERE category = 'Sneakers' OR category = 'Loafers'
                                ORDER BY RANDOM()
                                LIMIT 1")
     
@@ -62,25 +62,25 @@ get_ootd <- function() {
     # Select warm clothing
     outfit$top <- dbGetQuery(conn, 
                              "SELECT * FROM closet 
-                             WHERE category = 'jumpers'
+                             WHERE category = 'Jumper' OR category = 'Quarterzip'
                              ORDER BY RANDOM()
                              LIMIT 1")
     
     outfit$bottom <- dbGetQuery(conn, 
                                 "SELECT * FROM closet 
-                                WHERE category = 'trousers' 
+                                WHERE category = 'Trousers' 
                                 ORDER BY RANDOM()
                                 LIMIT 1")
     
     outfit$outerwear <- dbGetQuery(conn, 
                                 "SELECT * FROM closet 
-                                WHERE category = 'jackets' 
+                                WHERE category = 'Jacket' 
                                 ORDER BY RANDOM()
                                 LIMIT 1")
     
     outfit$shoes <- dbGetQuery(conn, 
                                "SELECT * FROM closet 
-                               WHERE category = 'boots' 
+                               WHERE category = 'Boots' OR category = 'Loafers'
                                ORDER BY RANDOM()
                                LIMIT 1")
   }
@@ -88,12 +88,12 @@ get_ootd <- function() {
   if (grepl("Rain", weather_desc)) {
     outfit$accessory <- dbGetQuery(conn, 
                                    "SELECT * FROM closet 
-                                   WHERE category = 'umbrellas' 
+                                   WHERE category = 'Umbrella' 
                                    LIMIT 1")
   } else if (grepl("Sunny", weather_desc)) {
     outfit$accessory <- dbGetQuery(conn, 
                                    "SELECT * FROM closet 
-                                   WHERE category = 'sunglasses' 
+                                   WHERE category = 'Sunglasses' 
                                    ORDER BY RANDOM()
                                    LIMIT 1")
   }
@@ -134,6 +134,9 @@ make_collage <- function(outfit) {
 
   # Loop through each item in the outfit
   for (item in outfit) {
+    label <- strwrap(item$category, width = 30) %>% 
+      paste(collapse = "\n")
+    
     if (!is.null(item$image_url)) {
       # Extract content from the image URL
       extracted_content <- gsub(".*/products/([a-zA-Z0-9\\-]+).*", "\\1", item$image_url)
@@ -146,6 +149,12 @@ make_collage <- function(outfit) {
       if (file.exists(image_path)) {
         img <- image_read(image_path)
         # Append the image to the list
+        img <- img %>% 
+          image_annotate(text = label,
+                         size = 30,
+                         gravity = "southeast",
+                         color = "#011e62",
+                         boxcolor = "white")
         images <- append(images, list(img))
       } else {
         message("Image file does not exist: ", image_path)
@@ -177,7 +186,7 @@ make_collage <- function(outfit) {
     dir.create("output")
   }
   
-  image_write(canvas, "output/outfit_collage.png")
+  # image_write(canvas, "output/outfit_collage.png")
   
   return(canvas)
 }

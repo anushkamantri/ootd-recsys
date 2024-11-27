@@ -73,18 +73,21 @@ scrape_and_save_products <- function(category_links) {
 
 # Dictionary of category-link pairs
 category_links <- c(
-  "tshirts" = "https://www.asos.com/search/?q=short%20sleeve%20t%20shirts&refine=floor:1000",
-  "shorts" = "https://www.asos.com/search/?q=womens+linen+shorts",
-  "sandals" = "https://www.asos.com/search/?q=birkenstock+arizona",
-  "longsleeves" = "https://www.asos.com/search/?q=knits&refine=floor:1000",
-  "jeans" = "https://www.asos.com/women/jeans/cat/?cid=3630&refine=floor:1000",
-  "trousers" = "https://www.asos.com/search/?q=trousers&refine=floor:1000",
-  "sneakers" = "https://www.asos.com/search/?q=trainers",
-  "jumpers" = "https://www.asos.com/women/jumpers-cardigans/cat/?cid=2637",
-  "jackets" = "https://www.asos.com/search/?q=jacket&refine=floor:1000",
-  "boots" = "https://www.asos.com/search/?q=boots&refine=floor:1000",
-  "umbrellas" = "https://www.asos.com/search/?q=umbrella&refine=attribute_1047:8274",
-  "sunglasses" = "https://www.asos.com/search/?q=sunglasses"
+  "Tshirt" = "https://www.asos.com/search/?q=short%20sleeve%20t%20shirts&refine=floor:1000",
+  "Shorts" = "https://www.asos.com/search/?q=womens+linen+shorts",
+  "Sandals" = "https://www.asos.com/search/?q=birkenstock+arizona",
+  "Slides" = "https://www.asos.com/search/?q=slides",
+  "Longsleeve" = "https://www.asos.com/search/?q=knits&refine=floor:1000",
+  "Quarterzip" = "https://www.asos.com/search/?q=quarter%20zip&refine=floor:1000",
+  "Jeans" = "https://www.asos.com/women/jeans/cat/?cid=3630&refine=floor:1000",
+  "Trousers" = "https://www.asos.com/search/?q=trousers&refine=floor:1000",
+  "Sneakers" = "https://www.asos.com/search/?q=trainers",
+  "Loafers" = "https://www.asos.com/search/?q=loafers",
+  "Jumper" = "https://www.asos.com/women/jumpers-cardigans/cat/?cid=2637",
+  "Jacket" = "https://www.asos.com/search/?q=jacket&refine=floor:1000",
+  "Boots" = "https://www.asos.com/search/?q=boots&refine=floor:1000",
+  "Umbrella" = "https://www.asos.com/search/?q=umbrella&refine=attribute_1047:8274",
+  "Sunglasses" = "https://www.asos.com/search/?q=sunglasses"
 )
 
 scrape_and_save_products(category_links)
