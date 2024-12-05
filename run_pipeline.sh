@@ -1,27 +1,31 @@
 #!/bin/bash
 # Usage: ./run_pipeline.sh YOUR_ACCESS_KEY
-# Check if the API key is provided
+# Pipeline script for the Outfit Recommendation System
+
+# Check if API key is provided
 if [ -z "$1" ]; then
     echo "Usage: $0 YOUR_API_KEY"
-    exit 1 
+    exit 1
 fi
 
 YOUR_ACCESS_KEY=$1
 export YOUR_ACCESS_KEY
-export LOG_FILE="./log_file.log"  # Relative path to log file
+export LOG_FILE="./log_file.log"
 
-# Ensure log file exists
+# Ensure the log file exists
 touch "$LOG_FILE"
 
-# Run R scripts
+# Run R scripts for scraping, API calls, and ETL
 Rscript product_scraping.R
 Rscript weatherstack_api.R >> "$LOG_FILE" 2>&1
 Rscript etl.R >> "$LOG_FILE" 2>&1
+
+# Start the API server
 Rscript run_ootd_api.R &
 
-# Wait for API to start
+# Wait for the server to initialize
 sleep 5
 
-# Call the /ootd endpoint
-curl "http://127.0.0.1:8000/ootd" --output output/ootd_plot.png
-echo "Outfit of the Day plot saved as ootd_plot.png in output folder"
+# Call the /ootd endpoint and save the output plot
+curl "http://127.0.0.1:8000/ootd" --output ootd_plot.png
+echo "Outfit of the Day plot saved as ootd_plot.png in working directory!"
