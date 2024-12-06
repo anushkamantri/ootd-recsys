@@ -1,7 +1,7 @@
 
 # Outfit of the Day Recommendation System
 
-A dynamic recommendation system that generates an outfit suggestion based on current weather conditions. The project includes web scraping, weather API integration, data processing, and an interactive API to generate outfit recommendations with visual outputs.
+A dynamic recommendation system that generates an outfit suggestion based on current weather conditions in London. The project includes web scraping, weather API integration, data processing, and an interactive API to generate outfit recommendations with visual outputs.
 
 ---
 
@@ -13,6 +13,7 @@ A dynamic recommendation system that generates an outfit suggestion based on cur
 - [Usage Instructions](#usage-instructions)
 - [Recommendation Logic](#recommendation-logic)
 - [Output Description](#output-description)
+- [Additional Features (Bonus Implementations)](#additional-features-bonus-implementations)
 - [Troubleshooting and FAQs](#troubleshooting-and-faqs)
 
 ---
