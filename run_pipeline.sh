@@ -15,17 +15,20 @@ export LOG_FILE="./log_file.log"
 # Ensure the log file exists
 touch "$LOG_FILE"
 
+# Ensure the output directory exists
+mkdir -p output
+
 # Run R scripts for scraping, API calls, and ETL
-Rscript product_scraping.R
 Rscript weatherstack_api.R >> "$LOG_FILE" 2>&1
+Rscript product_scraping.R
 Rscript etl.R >> "$LOG_FILE" 2>&1
 
 # Start the API server
-Rscript run_ootd_api.R &
+Rscript run_ootd_api.R >> "$LOG_FILE" 2>&1 &
 
 # Wait for the server to initialize
 sleep 5
 
 # Call the /ootd endpoint and save the output plot
-curl "http://127.0.0.1:8000/ootd" --output ootd_plot.png
-echo "Outfit of the Day plot saved as ootd_plot.png in working directory!"
+curl "http://127.0.0.1:8000/ootd" --output output/ootd_plot.png
+echo "Outfit of the Day plot saved as ootd_plot.png in the output directory!"
