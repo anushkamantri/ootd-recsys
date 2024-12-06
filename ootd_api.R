@@ -3,6 +3,7 @@ library(DBI)
 library(RSQLite)
 library(jsonlite)
 library(magick)
+suppressPackageStartupMessages(library(dplyr))
 
 #* @apiTitle Outfit Recommendation API
 
