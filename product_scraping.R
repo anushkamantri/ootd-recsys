@@ -2,7 +2,6 @@ library(rvest)
 library(dplyr)
 library(purrr)
 library(httr)
-suppressPackageStartupMessages(library(dplyr))
 
 # Function to fetch the webpage from a given URL
 fetch_webpage <- function(url) {
