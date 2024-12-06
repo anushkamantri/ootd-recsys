@@ -19,8 +19,8 @@ A dynamic recommendation system that generates an outfit suggestion based on cur
 
 ## Project Overview
 This system recommends an outfit based on weather conditions retrieved from the Weatherstack API and data from an SQLite database. The output includes a visual collage with:
-- Date and weather details.
-- Recommended clothing items with annotated images.
+- Date, temperature, and weather details
+- Recommended clothing items for 2 outfit options with annotated images
 
 ---
 
@@ -47,8 +47,8 @@ install.packages(c("rvest", "httr", "jsonlite", "DBI", "RSQLite", "plumber", "dp
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/your-repo-url/outfit-recommendation-system.git
-cd outfit-recommendation-system
+git clone https://github.com/anushkamantri/ootd-recsys.git
+cd ootd-recsys
 ```
 
 ### Setting up the Weatherstack API Key
@@ -59,9 +59,9 @@ cd outfit-recommendation-system
    ```
 
 ### Ensure Directory Structure
-- Create `data/` and `images/` directories:
+- Create `data/`, `images/`, and `output/` directories:
   ```bash
-  mkdir data images
+  mkdir data images output
   ```
 
 ---
@@ -79,6 +79,7 @@ cd outfit-recommendation-system
 ### Directories
 - **`images/`**: Stores product images.
 - **`data/`**: Contains intermediate data files (e.g., `weather_data.rds`, `products_raw.csv`).
+- **`output/`**: Stores the generated outfit recommendations as an image.
 - **`closet.db`**: SQLite database storing product data.
 
 ---
@@ -126,7 +127,22 @@ To run the entire pipeline:
 ### Generated Outputs
 - **`ootd_plot.png`**: Visual collage containing:
   - Date, temperature, and weather conditions.
-  - Recommended outfit items with annotated images.
+  - Recommended clothing items for 2 outfit options with annotated images.
+
+---
+
+## Additional Features (Bonus Implementations)
+
+#### Extra Items in the Closet
+- This project includes additional clothing and accessory items beyond the required 25, such as:
+  - **Footwear Variety**: Sandals, slides, sneakers, loafers, and boots for diverse outfit recommendations.
+  - **Colder Weather Options**: A range of jackets, jumpers, and quarter-zips to suit colder temperatures.
+
+#### Multiple Outfit Suggestions
+- **Two Outfit Options**:
+  - The API generates two different outfit suggestions for each weather condition.
+  - Both options are tailored based on temperature and weather conditions but incorporate randomized selection from the closet for variety.
+  - The `/ootd` endpoint produces a collage with these two outfit options displayed sequentially, allowing users to pick their favorite.
 
 ---
 
@@ -136,7 +152,7 @@ To run the entire pipeline:
 1. **Missing API Key**:
    - Ensure the `YOUR_ACCESS_KEY` environment variable is set.
 2. **Port Conflicts**:
-   - If the API server fails to start, check if port `8000` is in use. Change the port in `run_ootd_api.R` if needed.
+   - If the API server fails to start, check if port `8000` is already in use and clear it for usage. Change the port in `run_ootd_api.R` if needed.
 3. **Image Download Errors**:
    - Verify the URLs in the scraped data and ensure they are valid.
 
