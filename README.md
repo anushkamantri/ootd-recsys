@@ -83,6 +83,12 @@ cd ootd-recsys
 - **`output/`**: Stores the generated outfit recommendations as an image.
 - **`closet.db`**: SQLite database storing product data.
 
+### Log File
+- A log file (`log_file.log`) is used to store intermediate messages and errors from the pipeline scripts.
+- **Details Logged**:
+  - Messages and errors from `weatherstack_api.R`, `etl.R`, and `run_ootd_api.R` are redirected to the log file.
+- **Exclusion**:
+  - Messages from `product_scraping.R` are displayed in the terminal instead of being logged. This allows the user to see which product categories are being scraped in real time.
 ---
 
 ## Usage Instructions
