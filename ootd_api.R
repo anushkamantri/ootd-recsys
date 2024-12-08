@@ -207,8 +207,7 @@ make_collage <- function(outfit, option_number) {
   
   # Process the images to ensure consistent size
   images <- image_join(images)
-  processed_images <- image_join(images)
-  processed_images <- image_scale(processed_images, "400x400")
+  images <- image_scale(images, "400x400")
   
   # Arrange images dynamically based on the number of items
   if (length(images) <= 3) {
